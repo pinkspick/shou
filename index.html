@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta name="description" content="Lumière — Maison of cultivated diamonds. Lab-grown brilliance, born of science, shaped by hand, kind to the earth." />
+<meta name="description" content="Lumière — Maison of cultivated diamonds. Lab-grown brilliance, born of science, shaped by hand, kind to the earth. Customise, try on virtually, and book a private appointment." />
 <title>Lumière — La Maison of Cultivated Light</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,9 +12,13 @@
 </head>
 <body>
 
-<!-- Announcement -->
-<div class="announce" id="announce">
-  <span>Complimentary worldwide delivery &amp; lifetime care — every Lumière diamond carries its origin certificate.</span>
+<!-- Event countdown bar -->
+<div class="event-bar" id="eventBar">
+  <span class="event-bar__tag">MAISON PRIVÉ EVENT</span>
+  <span class="event-bar__text">Enjoy <strong>complimentary engraving &amp; 15% atelier credit</strong> — ends in</span>
+  <span class="countdown" id="countdown" aria-label="time remaining">
+    <b id="cdD">00</b>d <b id="cdH">00</b>h <b id="cdM">00</b>m <b id="cdS">00</b>s
+  </span>
 </div>
 
 <!-- Navigation -->
@@ -24,8 +28,9 @@
   </button>
   <nav class="nav__links nav__links--left">
     <a href="#maison">La Maison</a>
-    <a href="#light">The Science of Light</a>
-    <a href="#journey">The Journey</a>
+    <a href="#collections">Collections</a>
+    <a href="#occasions">Occasions</a>
+    <a href="#atelier">Atelier</a>
   </nav>
   <a href="#top" class="brand" aria-label="Lumière home">
     <span class="brand__mark">&#9670;</span>
@@ -33,21 +38,22 @@
     <span class="brand__sub">CULTIVATED DIAMONDS</span>
   </a>
   <nav class="nav__links nav__links--right">
-    <a href="#collections">Collections</a>
-    <a href="#earth">Our Earth</a>
-    <button class="cart-btn" id="cartBtn" aria-label="Open cart">
-      Bag <span class="cart-count" id="cartCount">0</span>
-    </button>
+    <button class="link-btn" data-open="tryon">Virtual Try-On</button>
+    <button class="link-btn" data-open="appointment">Appointment</button>
+    <button class="cart-btn" id="cartBtn" aria-label="Open cart">Bag <span class="cart-count" id="cartCount">0</span></button>
   </nav>
 </header>
 
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="#maison">La Maison</a>
-  <a href="#light">The Science of Light</a>
-  <a href="#journey">The Journey</a>
   <a href="#collections">Collections</a>
-  <a href="#earth">Our Earth</a>
+  <a href="#occasions">Occasions</a>
+  <a href="#atelier">Atelier</a>
+  <a href="#service">Lifetime Service</a>
+  <button class="mm-btn" data-open="tryon">Virtual Try-On</button>
+  <button class="mm-btn" data-open="appointment">Book Appointment</button>
+  <button class="mm-btn" data-open="tracking">Track My Order</button>
 </div>
 
 <!-- HERO -->
@@ -55,16 +61,12 @@
   <div class="hero__veil"></div>
   <div class="hero__diamond" aria-hidden="true">
     <svg viewBox="0 0 200 200" width="100%" height="100%">
-      <defs>
-        <linearGradient id="dg" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0" stop-color="#fdfbf6"/><stop offset=".5" stop-color="#dcd0b4"/><stop offset="1" stop-color="#9c8a63"/>
-        </linearGradient>
-      </defs>
+      <defs><linearGradient id="dg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#fdfbf6"/><stop offset=".5" stop-color="#dcd0b4"/><stop offset="1" stop-color="#9c8a63"/>
+      </linearGradient></defs>
       <g fill="none" stroke="url(#dg)" stroke-width="1.1">
-        <path d="M100 20 L150 70 L100 180 L50 70 Z"/>
-        <path d="M50 70 L150 70"/>
-        <path d="M100 20 L75 70 M100 20 L125 70"/>
-        <path d="M75 70 L100 180 M125 70 L100 180"/>
+        <path d="M100 20 L150 70 L100 180 L50 70 Z"/><path d="M50 70 L150 70"/>
+        <path d="M100 20 L75 70 M100 20 L125 70"/><path d="M75 70 L100 180 M125 70 L100 180"/>
         <path d="M65 70 L100 110 L135 70"/>
       </g>
     </svg>
@@ -72,45 +74,32 @@
   <div class="hero__content">
     <p class="eyebrow">EST. IN THE AGE OF CONSCIOUS LUXURY</p>
     <h1 class="hero__title">Light, Cultivated.</h1>
-    <p class="hero__lede">A diamond is patience made visible. Ours is grown not torn from the earth, but coaxed into being — atom upon atom — in halls of light. The same fire. A gentler story.</p>
+    <p class="hero__lede">A diamond is patience made visible. Ours is grown — not torn from the earth — atom upon atom, in halls of light. The same fire. A gentler story.</p>
     <div class="hero__cta">
       <a href="#collections" class="btn btn--gold">Discover the Collections</a>
-      <a href="#journey" class="btn btn--ghost">See How It's Made</a>
+      <button class="btn btn--ghost" data-open="tryon">Try On Virtually</button>
     </div>
   </div>
   <div class="scroll-cue"><span></span>SCROLL</div>
 </section>
 
-<!-- LA MAISON — storyline -->
+<!-- LA MAISON -->
 <section class="maison" id="maison">
   <p class="section-eyebrow reveal">LA MAISON</p>
   <h2 class="section-title reveal">A House Built on Light</h2>
   <div class="maison__story">
     <p class="reveal drop">There is an old belief that a diamond holds a fragment of a fallen star. At Lumière, we did not wish to wait for the heavens, nor to wound the earth in search of them. So we learned to grow stars of our own.</p>
-    <p class="reveal">In our ateliers, carbon is gathered into a chamber of pure energy. Over weeks, it remembers what it has always longed to become. Layer by layer, a crystal awakens — identical in fire, in hardness, in soul, to any drawn from a mine, yet born without a single scar upon the land.</p>
-    <p class="reveal">Each creation is a chapter. Each chapter, a poem of patience, science, and the human hand. This is our heritage — written not in centuries of extraction, but in a promise to the century ahead.</p>
+    <p class="reveal">In our ateliers, carbon is gathered into a chamber of pure energy. Over weeks, it remembers what it has always longed to become — a crystal identical in fire, in hardness, in soul, to any drawn from a mine, yet born without a single scar upon the land.</p>
+    <p class="reveal">Each creation is a chapter. Each chapter, a poem of patience, science, and the human hand.</p>
   </div>
-
   <div class="chapters">
-    <article class="chapter reveal">
-      <span class="chapter__num">I</span>
-      <h3>The Garden of Carbon</h3>
-      <p>Where light and gas become the first whisper of a crystal. Our cultivation halls are powered entirely by renewable energy.</p>
-    </article>
-    <article class="chapter reveal">
-      <span class="chapter__num">II</span>
-      <h3>The Cutter's Vow</h3>
-      <p>Master lapidaries read each rough by hand, releasing 57 facets of fire from a single point of brilliance.</p>
-    </article>
-    <article class="chapter reveal">
-      <span class="chapter__num">III</span>
-      <h3>The Setting of a Story</h3>
-      <p>Goldsmiths cradle every stone in recycled gold and platinum, so the metal, too, carries a clean conscience.</p>
-    </article>
+    <article class="chapter reveal"><span class="chapter__num">I</span><h3>The Garden of Carbon</h3><p>Where light and gas become the first whisper of a crystal — powered entirely by renewable energy.</p></article>
+    <article class="chapter reveal"><span class="chapter__num">II</span><h3>The Cutter's Vow</h3><p>Master lapidaries read each rough by hand, releasing 57 facets of fire from a single point of brilliance.</p></article>
+    <article class="chapter reveal"><span class="chapter__num">III</span><h3>The Setting of a Story</h3><p>Goldsmiths cradle every stone in recycled gold and platinum — a clean conscience in every prong.</p></article>
   </div>
 </section>
 
-<!-- THE SCIENCE OF LIGHT -->
+<!-- SCIENCE OF LIGHT -->
 <section class="light" id="light">
   <div class="light__text">
     <p class="section-eyebrow reveal">THE SCIENCE OF LIGHT</p>
@@ -126,18 +115,11 @@
   <div class="light__visual reveal">
     <div class="prism">
       <svg viewBox="0 0 300 300" width="100%" height="100%">
-        <defs>
-          <linearGradient id="pg" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#c5a572"/>
-          </linearGradient>
-        </defs>
+        <defs><linearGradient id="pg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#c5a572"/></linearGradient></defs>
         <g fill="none" stroke="url(#pg)" stroke-width="1">
-          <path d="M150 40 L240 130 L150 280 L60 130 Z"/>
-          <path d="M60 130 L240 130"/>
-          <path d="M150 40 L110 130 M150 40 L190 130"/>
-          <path d="M110 130 L150 280 M190 130 L150 280"/>
-          <path d="M85 130 L150 185 L215 130"/>
-          <path d="M150 130 L150 185"/>
+          <path d="M150 40 L240 130 L150 280 L60 130 Z"/><path d="M60 130 L240 130"/>
+          <path d="M150 40 L110 130 M150 40 L190 130"/><path d="M110 130 L150 280 M190 130 L150 280"/>
+          <path d="M85 130 L150 185 L215 130"/><path d="M150 130 L150 185"/>
         </g>
       </svg>
       <div class="prism__glow"></div>
@@ -145,94 +127,153 @@
   </div>
 </section>
 
-<!-- THE JOURNEY — end to end process -->
+<!-- FILM / ON-MODEL -->
+<section class="film" id="film">
+  <p class="section-eyebrow section-eyebrow--light reveal">THE FILM</p>
+  <h2 class="section-title section-title--light reveal">Worn, in Motion</h2>
+  <div class="film__player reveal">
+    <video id="filmVideo" poster="" playsinline preload="none"></video>
+    <div class="film__overlay" id="filmOverlay">
+      <div class="film__art" aria-hidden="true">
+        <svg viewBox="0 0 120 120"><g fill="none" stroke="#e4d3ad" stroke-width="1"><path d="M60 18 L92 50 L60 108 L28 50 Z"/><path d="M28 50 L92 50 M60 18 L46 50 M60 18 L74 50 M46 50 L60 108 M74 50 L60 108 M40 50 L60 70 L80 50"/></g></svg>
+      </div>
+      <button class="film__play" id="filmPlay" aria-label="Play film"><span></span></button>
+      <p class="film__caption">La Lumière — Spring Editorial</p>
+    </div>
+  </div>
+  <div class="lookbook">
+    <figure class="look reveal"><div class="look__img look__img--1"></div><figcaption>On Camille — Rivière Céleste</figcaption></figure>
+    <figure class="look reveal"><div class="look__img look__img--2"></div><figcaption>On Noor — Cascade Drops</figcaption></figure>
+    <figure class="look reveal"><div class="look__img look__img--3"></div><figcaption>On Aria — Étoile Solitaire</figcaption></figure>
+  </div>
+</section>
+
+<!-- JOURNEY -->
 <section class="journey" id="journey">
   <p class="section-eyebrow reveal">END TO END</p>
   <h2 class="section-title reveal">From a Seed of Carbon to Your Hand</h2>
-  <p class="journey__intro reveal">Every Lumière diamond travels a transparent path. We invite you to follow it — there are no shadows in our supply chain.</p>
-
+  <p class="journey__intro reveal">Every Lumière diamond travels a transparent path. There are no shadows in our supply chain.</p>
   <div class="timeline">
     <div class="timeline__line"></div>
-    <div class="step reveal">
-      <div class="step__node">01</div>
-      <div class="step__body">
-        <h3>The Seed</h3>
-        <p>A sliver of diamond — the seed — is placed in a reactor. Renewable energy ignites a plasma of carbon-rich gas. Crystal growth begins, atom by atom.</p>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step__node">02</div>
-      <div class="step__body">
-        <h3>The Cultivation</h3>
-        <p>Over six to ten weeks, the diamond grows in a controlled cosmos. No earth is moved, no river dredged, no community displaced.</p>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step__node">03</div>
-      <div class="step__body">
-        <h3>The Reading</h3>
-        <p>Each rough is mapped by master cutters. Like reading the grain of rare wood, they find the angle that will sing with the most fire.</p>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step__node">04</div>
-      <div class="step__body">
-        <h3>The Cut</h3>
-        <p>Precision lasers and human eyes carve 57 facets. Polished against diamond dust until each face is a flawless mirror.</p>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step__node">05</div>
-      <div class="step__body">
-        <h3>The Setting</h3>
-        <p>Goldsmiths set the stone in 100% recycled gold or platinum, by hand, in our atelier. Every prong a small act of devotion.</p>
-      </div>
-    </div>
-    <div class="step reveal">
-      <div class="step__node">06</div>
-      <div class="step__body">
-        <h3>The Certificate</h3>
-        <p>Your diamond arrives with its origin passport — grade, carbon footprint, and the very hall in which it was grown. Traceable to the atom.</p>
-      </div>
-    </div>
+    <div class="step reveal"><div class="step__node">01</div><div class="step__body"><h3>The Seed</h3><p>A sliver of diamond is placed in a reactor. Renewable energy ignites a plasma of carbon-rich gas. Growth begins, atom by atom.</p></div></div>
+    <div class="step reveal"><div class="step__node">02</div><div class="step__body"><h3>The Cultivation</h3><p>Over six to ten weeks, the diamond grows in a controlled cosmos. No earth moved, no river dredged.</p></div></div>
+    <div class="step reveal"><div class="step__node">03</div><div class="step__body"><h3>The Reading</h3><p>Each rough is mapped by master cutters, who find the angle that will sing with the most fire.</p></div></div>
+    <div class="step reveal"><div class="step__node">04</div><div class="step__body"><h3>The Cut</h3><p>Precision lasers and human eyes carve 57 facets, polished against diamond dust to a flawless mirror.</p></div></div>
+    <div class="step reveal"><div class="step__node">05</div><div class="step__body"><h3>The Setting</h3><p>Goldsmiths set the stone in recycled gold or platinum, by hand, in our atelier.</p></div></div>
+    <div class="step reveal"><div class="step__node">06</div><div class="step__body"><h3>The Certificate</h3><p>Your diamond arrives with its origin passport — traceable to the atom.</p></div></div>
   </div>
 </section>
 
-<!-- COLLECTIONS — shopping -->
+<!-- SHOP BY OCCASION -->
+<section class="occasions" id="occasions">
+  <p class="section-eyebrow reveal">SHOP BY OCCASION</p>
+  <h2 class="section-title reveal">A Jewel for Every Chapter</h2>
+  <div class="occasion-grid">
+    <button class="occasion reveal" data-occasion="birthday">
+      <div class="occasion__art">&#10022;</div><h3>Birthday</h3><p>Mark another year of light.</p><span>Discover &rarr;</span>
+    </button>
+    <button class="occasion reveal" data-occasion="anniversary">
+      <div class="occasion__art">&#9825;</div><h3>Anniversary</h3><p>Years, told in brilliance.</p><span>Discover &rarr;</span>
+    </button>
+    <button class="occasion reveal" data-occasion="wedding">
+      <div class="occasion__art">&#9901;</div><h3>Wedding</h3><p>A vow, made eternal.</p><span>Discover &rarr;</span>
+    </button>
+  </div>
+</section>
+
+<!-- COLLECTIONS -->
 <section class="collections" id="collections">
   <p class="section-eyebrow reveal">THE COLLECTIONS</p>
   <h2 class="section-title reveal">Pieces to Be Passed On</h2>
-  <div class="filters" id="filters">
-    <button class="filter is-active" data-filter="all">All</button>
-    <button class="filter" data-filter="rings">Rings</button>
-    <button class="filter" data-filter="necklaces">Necklaces</button>
-    <button class="filter" data-filter="earrings">Earrings</button>
-    <button class="filter" data-filter="bracelets">Bracelets</button>
+  <div class="shop-controls">
+    <div class="filters" id="filters">
+      <button class="filter is-active" data-filter="all">All</button>
+      <button class="filter" data-filter="rings">Rings</button>
+      <button class="filter" data-filter="necklaces">Necklaces</button>
+      <button class="filter" data-filter="earrings">Earrings</button>
+      <button class="filter" data-filter="bracelets">Bracelets</button>
+    </div>
+    <div class="sort">
+      <label for="sortSelect">Sort</label>
+      <select id="sortSelect">
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="name">Name: A–Z</option>
+      </select>
+    </div>
   </div>
-  <div class="product-grid" id="productGrid"><!-- populated by JS --></div>
+  <p class="active-occasion" id="activeOccasion" hidden></p>
+  <div class="product-grid" id="productGrid"></div>
 </section>
 
-<!-- OUR EARTH — sustainability -->
+<!-- VIRTUAL TRY-ON promo -->
+<section class="vto" id="vto">
+  <div class="vto__inner">
+    <p class="section-eyebrow section-eyebrow--light reveal">VIRTUAL REALITY</p>
+    <h2 class="section-title section-title--light reveal">See It On You, Now</h2>
+    <p class="vto__lede reveal">Open your camera and let our pieces meet the light of your own world. Position, resize, and capture a portrait to share — no boutique required.</p>
+    <button class="btn btn--gold reveal" data-open="tryon">Launch Virtual Try-On</button>
+    <p class="vto__note reveal">Your camera never leaves your device. Nothing is recorded or uploaded.</p>
+  </div>
+</section>
+
+<!-- ATELIER / CRAFTSMANSHIP -->
+<section class="atelier" id="atelier">
+  <p class="section-eyebrow reveal">CRAFTSMANSHIP &amp; SAVOIR-FAIRE</p>
+  <h2 class="section-title reveal">The Hand Behind the Light</h2>
+  <p class="atelier__quote reveal">"Technology grows the crystal. But it is the human hand — patient, imperfect, alive — that gives a diamond its soul."</p>
+  <p class="atelier__attr reveal">— Élise Moreau, Atelier Director</p>
+
+  <div class="gold-guide reveal">
+    <h3>The Measure of Gold</h3>
+    <p>Every Lumière setting is wrought from 100% recycled gold. Choose the karat that speaks to you — purity, warmth, and durability in balance.</p>
+    <div class="karat-row">
+      <div class="karat"><span class="karat__k">14k</span><span class="karat__p">58.5% gold</span><p>Hardest &amp; most resilient — for pieces worn every day.</p></div>
+      <div class="karat"><span class="karat__k">18k</span><span class="karat__p">75% gold</span><p>The maison standard — rich colour, lasting strength.</p></div>
+      <div class="karat"><span class="karat__k">22k</span><span class="karat__p">91.6% gold</span><p>Deep, luminous warmth for the connoisseur.</p></div>
+      <div class="karat"><span class="karat__k">PT</span><span class="karat__p">95% platinum</span><p>Rare, dense, eternally white — the ultimate cradle.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- OUR EARTH -->
 <section class="earth" id="earth">
   <p class="section-eyebrow section-eyebrow--light reveal">OUR EARTH</p>
   <h2 class="section-title section-title--light reveal">Luxury Without a Wound</h2>
-  <p class="earth__lede reveal">A mined carat can displace a tonne of earth. Ours displaces none. This is what we protect, every single day.</p>
+  <p class="earth__lede reveal">A mined carat can displace a tonne of earth. Ours displaces none.</p>
   <div class="stats">
-    <div class="stat reveal"><span class="stat__num" data-count="0">0</span><span class="stat__unit">m&sup3;</span><p>of earth moved per carat</p></div>
+    <div class="stat reveal"><span class="stat__num" data-count="0">0</span><span class="stat__unit">m&sup3;</span><p>earth moved per carat</p></div>
     <div class="stat reveal"><span class="stat__num" data-count="100">0</span><span class="stat__unit">%</span><p>renewable-powered ateliers</p></div>
     <div class="stat reveal"><span class="stat__num" data-count="95">0</span><span class="stat__unit">%</span><p>less water than mined stones</p></div>
     <div class="stat reveal"><span class="stat__num" data-count="100">0</span><span class="stat__unit">%</span><p>recycled gold &amp; platinum</p></div>
   </div>
-  <a href="#collections" class="btn btn--gold reveal">Shop Consciously</a>
 </section>
 
-<!-- CRAFT -->
-<section class="craft">
-  <div class="craft__inner">
-    <p class="section-eyebrow reveal">SAVOIR-FAIRE</p>
-    <h2 class="section-title reveal">The Hand Behind the Light</h2>
-    <p class="reveal craft__quote">"Technology grows the crystal. But it is the human hand — patient, imperfect, alive — that gives a diamond its soul."</p>
-    <p class="reveal craft__attr">— Élise Moreau, Atelier Director</p>
+<!-- LIFETIME SERVICE -->
+<section class="service" id="service">
+  <p class="section-eyebrow reveal">THE LUMIÈRE PROMISE</p>
+  <h2 class="section-title reveal">Lifetime Service</h2>
+  <p class="service__lede reveal">A Lumière piece is made to be passed on. Our care travels with it, for as long as it is loved.</p>
+  <div class="service-grid">
+    <div class="svc reveal"><div class="svc__ic">&#9670;</div><h3>Complimentary Cleaning</h3><p>Annual professional cleaning &amp; polishing, in boutique or by post.</p></div>
+    <div class="svc reveal"><div class="svc__ic">&#9671;</div><h3>Resizing &amp; Repair</h3><p>Free resizing within the first year, expert repair forever after.</p></div>
+    <div class="svc reveal"><div class="svc__ic">&#9672;</div><h3>Lifetime Warranty</h3><p>Every setting and stone, guaranteed against manufacturing defects.</p></div>
+    <div class="svc reveal"><div class="svc__ic">&#10022;</div><h3>Origin Re-Certification</h3><p>Replace or re-issue your origin certificate at any time.</p></div>
+  </div>
+  <div class="service__cta reveal">
+    <button class="btn btn--dark" data-open="tracking">Track an Order</button>
+    <button class="btn btn--gold" data-open="appointment">Book an Appointment</button>
+  </div>
+</section>
+
+<!-- APPOINTMENT promo -->
+<section class="appoint" id="appoint">
+  <div class="appoint__inner reveal">
+    <p class="section-eyebrow">PRIVATE CLIENT</p>
+    <h2 class="section-title">Book a Private Appointment</h2>
+    <p>Meet your diamond in person, or speak with a concierge over WhatsApp. We will guide you from first sketch to final setting.</p>
+    <button class="btn btn--gold" data-open="appointment">Reserve Your Visit</button>
   </div>
 </section>
 
@@ -253,38 +294,32 @@
     <span class="brand__mark">&#9670;</span>
     <span class="brand__name">LUMI&Egrave;RE</span>
     <p>Cultivated diamonds for the conscious century.</p>
+    <div class="social">
+      <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+      <a href="https://www.tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">TT</a>
+      <a href="https://www.pinterest.com" target="_blank" rel="noopener" aria-label="Pinterest">PIN</a>
+      <a href="https://www.youtube.com" target="_blank" rel="noopener" aria-label="YouTube">YT</a>
+      <a id="waFooter" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+    </div>
   </div>
-  <div class="footer__col">
-    <h4>Maison</h4>
-    <a href="#maison">Our Story</a>
-    <a href="#light">The Science</a>
-    <a href="#journey">The Journey</a>
-    <a href="#earth">Sustainability</a>
-  </div>
-  <div class="footer__col">
-    <h4>Shop</h4>
-    <a href="#collections">Rings</a>
-    <a href="#collections">Necklaces</a>
-    <a href="#collections">Earrings</a>
-    <a href="#collections">Bracelets</a>
-  </div>
-  <div class="footer__col">
-    <h4>Care</h4>
-    <a href="#">Lifetime Service</a>
-    <a href="#">Origin Certificate</a>
-    <a href="#">Shipping &amp; Returns</a>
-    <a href="#">Contact a Concierge</a>
-  </div>
+  <div class="footer__col"><h4>Maison</h4><a href="#maison">Our Story</a><a href="#light">The Science</a><a href="#journey">The Journey</a><a href="#earth">Sustainability</a></div>
+  <div class="footer__col"><h4>Shop</h4><a href="#collections">Rings</a><a href="#collections">Necklaces</a><a href="#collections">Earrings</a><a href="#occasions">By Occasion</a></div>
+  <div class="footer__col"><h4>Care</h4><a href="#service">Lifetime Service</a><button class="footer__link" data-open="tracking">Track My Order</button><button class="footer__link" data-open="appointment">Book Appointment</button><button class="footer__link" data-open="tryon">Virtual Try-On</button></div>
   <p class="footer__base">&copy; 2026 Lumière Maison. Every diamond, traceable to the atom.</p>
 </footer>
+
+<!-- MODALS -->
+<div class="modal" id="productModal" aria-hidden="true"><div class="modal__panel" id="productPanel"></div></div>
+<div class="modal" id="certModal" aria-hidden="true"><div class="modal__panel modal__panel--cert" id="certPanel"></div></div>
+<div class="modal" id="checkoutModal" aria-hidden="true"><div class="modal__panel modal__panel--checkout" id="checkoutPanel"></div></div>
+<div class="modal" id="tryonModal" aria-hidden="true"><div class="modal__panel modal__panel--tryon" id="tryonPanel"></div></div>
+<div class="modal" id="appointmentModal" aria-hidden="true"><div class="modal__panel modal__panel--appoint" id="appointmentPanel"></div></div>
+<div class="modal" id="trackingModal" aria-hidden="true"><div class="modal__panel modal__panel--track" id="trackingPanel"></div></div>
 
 <!-- CART DRAWER -->
 <div class="overlay" id="overlay"></div>
 <aside class="cart" id="cart" aria-label="Shopping bag">
-  <div class="cart__head">
-    <h3>Your Bag</h3>
-    <button id="cartClose" aria-label="Close">&times;</button>
-  </div>
+  <div class="cart__head"><h3>Your Bag</h3><button id="cartClose" aria-label="Close">&times;</button></div>
   <div class="cart__items" id="cartItems"></div>
   <div class="cart__foot">
     <div class="cart__total"><span>Total</span><span id="cartTotal">$0</span></div>
@@ -293,24 +328,7 @@
   </div>
 </aside>
 
-<!-- QUICK-VIEW / PRODUCT MODAL -->
-<div class="modal" id="productModal" aria-hidden="true">
-  <div class="modal__panel" id="productPanel"><!-- JS --></div>
-</div>
-
-<!-- CERTIFICATE MODAL -->
-<div class="modal" id="certModal" aria-hidden="true">
-  <div class="modal__panel modal__panel--cert" id="certPanel"><!-- JS --></div>
-</div>
-
-<!-- CHECKOUT MODAL -->
-<div class="modal" id="checkoutModal" aria-hidden="true">
-  <div class="modal__panel modal__panel--checkout" id="checkoutPanel"><!-- JS --></div>
-</div>
-
-<!-- toast -->
 <div class="toast" id="toast"></div>
-
 <script src="assets/js/main.js"></script>
 </body>
 </html>
