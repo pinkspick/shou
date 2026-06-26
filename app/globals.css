@@ -169,6 +169,27 @@
   outline-offset: 2px;
 }
 
+/* ------------------------------------------------------------------
+   Spinning diamond (pure CSS 3D — see components/product/SpinningDiamond)
+   ------------------------------------------------------------------ */
+.diamond-facet {
+  position: absolute;
+  backface-visibility: visible;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.25));
+}
+.diamond-spin {
+  animation: diamond-rotate 8s linear infinite;
+}
+@keyframes diamond-rotate {
+  from {
+    transform: rotateY(0deg);
+  }
+  to {
+    transform: rotateY(360deg);
+  }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

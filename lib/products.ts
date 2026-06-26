@@ -16,6 +16,9 @@ export const CATEGORIES = [
 
 export const CARATS = ["10K", "14K", "18K", "22K", "Platinum"] as const;
 
+/** Gold purities offered in the configurator (Platinum is a metal, not a carat). */
+export const GOLD_CARATS = ["10K", "14K", "18K", "22K"] as const;
+
 export const STONES = [
   "White Diamond",
   "Yellow Diamond",
@@ -103,6 +106,36 @@ export function isCategory(value: string): value is Category {
 }
 
 export const formatPrice = (n: number) => "$" + n.toLocaleString("en-US");
+
+/** Find a single piece by its category + slug (PDP lookup). */
+export function getProduct(
+  category: string,
+  slug: string
+): Product | undefined {
+  return PRODUCTS.find((p) => p.category === category && p.slug === slug);
+}
+
+/** A short, poetic one-liner for the product hero, keyed by category. */
+export function productTagline(p: Product): string {
+  const lines: Record<Category, string> = {
+    rings: "A vow rendered in cultivated light.",
+    necklaces: "Worn close, where the light gathers.",
+    bracelets: "A line of brilliance along the wrist.",
+    earrings: "Two small constellations, framed by you.",
+  };
+  return lines[p.category];
+}
+
+/**
+ * Deterministic IGI-style certificate id derived from the product id, so the
+ * mockup is stable across renders without storing it on every record.
+ */
+export function certificateId(p: Product): string {
+  let h = 0;
+  for (let i = 0; i < p.id.length; i++) h = (h * 31 + p.id.charCodeAt(i)) >>> 0;
+  const n = (h % 9000000000) + 1000000000; // 10 digits
+  return `IGI-${String(n).slice(0, 4)}-${String(n).slice(4)}`;
+}
 
 /* ---------------------------------------------------------------
    Catalogue — 20 placeholder pieces
