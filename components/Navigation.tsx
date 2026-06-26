@@ -1,0 +1,151 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+
+const NAV_LINKS = [
+  { label: "Shop", href: "/shop" },
+  { label: "Collections", href: "/collections" },
+  { label: "The Science", href: "/science" },
+  { label: "About", href: "/about" },
+  { label: "Service", href: "/service" },
+];
+
+function IconAccount() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <circle cx="9" cy="5.5" r="3" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M3 15.5c0-3 2.7-5 6-5s6 2 6 5" stroke="currentColor" strokeWidth="1.1" />
+    </svg>
+  );
+}
+function IconBag() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+      <path d="M4 5.5h10l-.8 9.5H4.8L4 5.5Z" stroke="currentColor" strokeWidth="1.1" />
+      <path d="M6.5 5.5a2.5 2.5 0 0 1 5 0" stroke="currentColor" strokeWidth="1.1" />
+    </svg>
+  );
+}
+
+export function Navigation() {
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Lock body scroll when the mobile overlay is open
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  return (
+    <header
+      className={cn(
+        "fixed inset-x-0 top-0 z-50 transition-all duration-400 ease-luxe",
+        scrolled
+          ? "bg-ivory/90 backdrop-blur-md border-b border-[color:var(--divider)] py-4"
+          : "bg-transparent border-b border-transparent py-6"
+      )}
+    >
+      <div className="mx-auto flex max-w-content items-center justify-between px-6 md:px-8">
+        {/* Logo — left */}
+        <Link href="/" className="flex items-baseline gap-2 text-obsidian" aria-label="Lumière home">
+          <span className="text-gold leading-none">◆</span>
+          <span className="font-display text-h3 tracking-[0.3em]">LUMIÈRE</span>
+        </Link>
+
+        {/* Links — center (desktop) */}
+        <nav className="hidden items-center gap-8 lg:flex">
+          {NAV_LINKS.map((l) => (
+            <Link
+              key={l.href}
+              href={l.href}
+              className="link-underline font-mono text-caption uppercase tracking-[0.18em] text-carbon hover:text-obsidian"
+            >
+              {l.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* Account + cart — right */}
+        <div className="flex items-center gap-5 text-obsidian">
+          <Link href="/account" aria-label="Account" className="hidden transition-colors duration-400 hover:text-gold sm:block">
+            <IconAccount />
+          </Link>
+          <Link href="/cart" aria-label="Cart" className="relative transition-colors duration-400 hover:text-gold">
+            <IconBag />
+            <span className="absolute -right-2 -top-2 grid h-4 w-4 place-items-center rounded-full bg-gold font-mono text-[0.5rem] text-white">
+              0
+            </span>
+          </Link>
+          {/* Hamburger — mobile */}
+          <button
+            type="button"
+            aria-label="Open menu"
+            aria-expanded={open}
+            onClick={() => setOpen(true)}
+            className="flex flex-col gap-[5px] lg:hidden"
+          >
+            <span className="h-px w-6 bg-obsidian" />
+            <span className="h-px w-6 bg-obsidian" />
+            <span className="h-px w-6 bg-obsidian" />
+          </button>
+        </div>
+      </div>
+
+      {/* Full-screen mobile overlay */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className="fixed inset-0 z-50 flex flex-col bg-ivory lg:hidden"
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <div className="flex items-center justify-between px-6 py-6">
+              <span className="font-display text-h3 tracking-[0.3em] text-obsidian">
+                <span className="text-gold">◆</span> LUMIÈRE
+              </span>
+              <button
+                type="button"
+                aria-label="Close menu"
+                onClick={() => setOpen(false)}
+                className="text-2xl leading-none text-obsidian"
+              >
+                ×
+              </button>
+            </div>
+            <nav className="flex flex-1 flex-col items-center justify-center gap-8">
+              {NAV_LINKS.map((l) => (
+                <Link
+                  key={l.href}
+                  href={l.href}
+                  onClick={() => setOpen(false)}
+                  className="font-display text-h2 text-obsidian hover:text-gold"
+                >
+                  {l.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center justify-center gap-8 pb-12 font-mono text-caption uppercase tracking-[0.18em] text-carbon">
+              <Link href="/account" onClick={() => setOpen(false)}>Account</Link>
+              <Link href="/cart" onClick={() => setOpen(false)}>Cart (0)</Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </header>
+  );
+}
