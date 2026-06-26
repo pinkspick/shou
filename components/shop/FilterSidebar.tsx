@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { PriceRange } from "./PriceRange";
 import {
@@ -15,9 +17,65 @@ import {
 } from "@/lib/products";
 import { PARAM, type Filters } from "@/lib/shop";
 
-function GroupLabel({ children }: { children: React.ReactNode }) {
+const luxe = [0.25, 0.46, 0.45, 0.94] as const;
+
+/**
+ * Collapsible filter group — a header with a +/− toggle that reveals its
+ * controls on click (mirrors the Van Cleef e-boutique sidebar). Pass
+ * `count` to surface how many values are active while collapsed.
+ */
+function FilterGroup({
+  label,
+  count = 0,
+  defaultOpen = false,
+  children,
+}: {
+  label: string;
+  count?: number;
+  defaultOpen?: boolean;
+  children: React.ReactNode;
+}) {
+  const [open, setOpen] = useState(defaultOpen);
   return (
-    <h3 className="overline mb-4 block text-obsidian">{children}</h3>
+    <section className="border-b border-[color:var(--border-soft)]">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        className="flex w-full items-center justify-between py-4 text-left"
+      >
+        <span className="overline flex items-center gap-2 text-obsidian">
+          {label}
+          {count > 0 && (
+            <span className="numeric rounded-full bg-gold px-1.5 py-0.5 font-mono text-[0.5rem] leading-none text-white">
+              {count}
+            </span>
+          )}
+        </span>
+        <span className="relative h-3 w-3 text-carbon">
+          <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-current" />
+          <span
+            className={cn(
+              "absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-current transition-transform duration-300",
+              open ? "scale-y-0" : "scale-y-100"
+            )}
+          />
+        </span>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.35, ease: luxe }}
+            className="overflow-hidden"
+          >
+            <div className="pb-5">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </section>
   );
 }
 
@@ -67,11 +125,17 @@ export function FilterSidebar({
   onClear: () => void;
   onResetCategory: () => void;
 }) {
+  const priceActive =
+    filters.min > 500 || filters.max < 25000 ? 1 : 0;
+
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col border-t border-[color:var(--border-soft)]">
       {/* Category */}
-      <section>
-        <GroupLabel>Category</GroupLabel>
+      <FilterGroup
+        label="Category"
+        defaultOpen
+        count={routeCategory ? 0 : filters.categories.length}
+      >
         {routeCategory ? (
           <ul className="flex flex-col">
             <li>
@@ -113,17 +177,15 @@ export function FilterSidebar({
             ))}
           </div>
         )}
-      </section>
+      </FilterGroup>
 
       {/* Price */}
-      <section>
-        <GroupLabel>Price Range</GroupLabel>
+      <FilterGroup label="Price Range" count={priceActive}>
         <PriceRange min={filters.min} max={filters.max} onCommit={onPrice} />
-      </section>
+      </FilterGroup>
 
       {/* Gold carat (radio) */}
-      <section>
-        <GroupLabel>Gold Carat</GroupLabel>
+      <FilterGroup label="Gold Carat" count={filters.carat ? 1 : 0}>
         <div className="flex flex-col">
           {CARATS.map((c) => {
             const active = filters.carat === c;
@@ -153,11 +215,10 @@ export function FilterSidebar({
             );
           })}
         </div>
-      </section>
+      </FilterGroup>
 
       {/* Stone type */}
-      <section>
-        <GroupLabel>Stone Type</GroupLabel>
+      <FilterGroup label="Stone Type" count={filters.stones.length}>
         {STONES.map((s) => (
           <CheckRow
             key={s}
@@ -166,11 +227,10 @@ export function FilterSidebar({
             onChange={() => onToggle(PARAM.stone, s)}
           />
         ))}
-      </section>
+      </FilterGroup>
 
       {/* Cut */}
-      <section>
-        <GroupLabel>Cut</GroupLabel>
+      <FilterGroup label="Cut" count={filters.cuts.length}>
         {CUTS.map((c) => (
           <CheckRow
             key={c}
@@ -179,12 +239,11 @@ export function FilterSidebar({
             onChange={() => onToggle(PARAM.cut, c)}
           />
         ))}
-      </section>
+      </FilterGroup>
 
       {/* Metal color (swatches) */}
-      <section>
-        <GroupLabel>Metal Color</GroupLabel>
-        <div className="flex flex-wrap gap-3">
+      <FilterGroup label="Metal Color" count={filters.metals.length}>
+        <div className="flex flex-wrap gap-3 pt-1">
           {METALS.map((m) => {
             const active = filters.metals.includes(m.value);
             return (
@@ -204,11 +263,10 @@ export function FilterSidebar({
             );
           })}
         </div>
-      </section>
+      </FilterGroup>
 
       {/* Occasion */}
-      <section>
-        <GroupLabel>Occasion</GroupLabel>
+      <FilterGroup label="Occasion" count={filters.occasions.length}>
         {OCCASIONS.map((o) => (
           <CheckRow
             key={o}
@@ -217,13 +275,13 @@ export function FilterSidebar({
             onChange={() => onToggle(PARAM.occasion, o)}
           />
         ))}
-      </section>
+      </FilterGroup>
 
       {/* Clear all */}
       <button
         type="button"
         onClick={onClear}
-        className="self-start font-mono text-caption uppercase tracking-[0.18em] text-carbon link-underline hover:text-obsidian"
+        className="mt-6 self-start font-mono text-caption uppercase tracking-[0.18em] text-carbon link-underline hover:text-obsidian"
       >
         Clear all filters
       </button>

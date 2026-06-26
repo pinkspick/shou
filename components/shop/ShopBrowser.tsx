@@ -6,11 +6,15 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { FilterSidebar } from "./FilterSidebar";
 import { ProductCard } from "./ProductCard";
+import { SortMenu } from "./SortMenu";
+import { Newsletter } from "@/components/Newsletter";
 import {
+  ALL_FOREWORD,
+  CATEGORY_FOREWORD,
   PRICE_MAX,
   PRICE_MIN,
   PRODUCTS,
-  SORTS,
+  SHOP_OVERLINE,
   type Carat,
   type Category,
 } from "@/lib/products";
@@ -46,6 +50,7 @@ export function ShopBrowser({
 
   const results = sortProducts(filterProducts(PRODUCTS, filters), sort);
   const activeCount = activeFilterCount(filters, Boolean(routeCategory));
+  const foreword = routeCategory ? CATEGORY_FOREWORD[routeCategory] : ALL_FOREWORD;
 
   /* ---- URL writers ---- */
   const writeParams = useCallback(
@@ -124,11 +129,15 @@ export function ShopBrowser({
   );
 
   return (
+    <>
     <section className="mx-auto max-w-content px-6 pb-24 pt-32 md:px-8">
-      {/* Page heading */}
-      <header className="mb-10">
-        <span className="overline text-gold">The Collection</span>
-        <h1 className="mt-3 font-display text-h1 text-obsidian">{heading}</h1>
+      {/* Editorial heading — overline, title, foreword */}
+      <header className="mx-auto mb-16 max-w-2xl text-center">
+        <span className="overline text-carbon/70">{SHOP_OVERLINE}</span>
+        <h1 className="mt-4 font-display text-h1 text-obsidian">{heading}</h1>
+        <p className="mt-6 font-display text-body-lg leading-relaxed text-carbon">
+          {foreword}
+        </p>
       </header>
 
       <div className="flex gap-12">
@@ -200,20 +209,12 @@ export function ShopBrowser({
               </div>
 
               {/* Sort */}
-              <label className="flex items-center gap-2">
-                <span className="sr-only">Sort by</span>
-                <select
-                  value={sort}
-                  onChange={(e) => writeParams({ [PARAM.sort]: e.target.value === "featured" ? null : e.target.value })}
-                  className="cursor-pointer rounded-button border border-[color:var(--border-soft)] bg-transparent py-2 pl-3 pr-8 font-mono text-caption uppercase tracking-[0.14em] text-obsidian focus:border-gold focus:outline-none"
-                >
-                  {SORTS.map((s) => (
-                    <option key={s.value} value={s.value}>
-                      {s.label}
-                    </option>
-                  ))}
-                </select>
-              </label>
+              <SortMenu
+                value={sort}
+                onChange={(v) =>
+                  writeParams({ [PARAM.sort]: v === "featured" ? null : v })
+                }
+              />
             </div>
           </div>
 
@@ -290,5 +291,8 @@ export function ShopBrowser({
         )}
       </AnimatePresence>
     </section>
+
+    <Newsletter />
+    </>
   );
 }

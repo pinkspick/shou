@@ -105,6 +105,24 @@ export function isCategory(value: string): value is Category {
   return CATEGORIES.some((c) => c.value === value);
 }
 
+/** Overline shown above the page title (editorial framing). */
+export const SHOP_OVERLINE = "Jewellery & High Jewellery";
+
+/** Foreword — an editorial paragraph that precedes the product grid. */
+export const ALL_FOREWORD =
+  "A house of cultivated light. Every Lumière piece begins as carbon and ends as a diamond grown, not mined — identical in fire and brilliance to the earth's own, certified to the same IGI standard, and gentler on the world that wears it.";
+
+export const CATEGORY_FOREWORD: Record<Category, string> = {
+  rings:
+    "From a single line of brilliance to a halo set ablaze, our rings dress the hand in cultivated light. Each stone is grown in our atelier and set by hand — a vow rendered in carbon and fire.",
+  necklaces:
+    "Worn close, where the light gathers. Pendants and rivières that trace the collarbone in cultivated diamonds — quiet by day, luminous by candlelight.",
+  bracelets:
+    "A line of brilliance along the wrist. Tennis bracelets and bangles articulated link by link, each stone matched for colour and cut, finished to move with you.",
+  earrings:
+    "Two small constellations, framed by you. Studs, drops and huggies in cultivated diamonds — the closest light to the face, and the easiest to love.",
+};
+
 export const formatPrice = (n: number) => "$" + n.toLocaleString("en-US");
 
 /** Find a single piece by its category + slug (PDP lookup). */

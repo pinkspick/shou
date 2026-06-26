@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,108 @@ const NAV_LINKS = [
   { label: "About", href: "/about" },
   { label: "Service", href: "/service" },
 ];
+
+/* Language only — we ship a single worldwide storefront (no regional domains). */
+const LANGUAGES = [
+  { code: "EN", label: "English" },
+  { code: "FR", label: "Français" },
+  { code: "IT", label: "Italiano" },
+  { code: "DE", label: "Deutsch" },
+  { code: "ES", label: "Español" },
+  { code: "ZH", label: "中文" },
+  { code: "JA", label: "日本語" },
+  { code: "AR", label: "العربية" },
+];
+
+const luxe = [0.25, 0.46, 0.45, 0.94] as const;
+
+function LanguageMenu() {
+  const [open, setOpen] = useState(false);
+  const [lang, setLang] = useState("EN");
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const onClick = (e: MouseEvent) => {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("mousedown", onClick);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("mousedown", onClick);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative hidden sm:block">
+      <button
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="inline-flex items-center gap-1.5 font-mono text-caption uppercase tracking-[0.18em] text-carbon transition-colors hover:text-obsidian"
+      >
+        <span aria-hidden>WW</span>
+        <span className="text-carbon/40">·</span>
+        {lang}
+        <svg
+          viewBox="0 0 24 24"
+          className="h-3 w-3 transition-transform duration-300"
+          style={{ transform: open ? "rotate(180deg)" : "none" }}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            role="listbox"
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.25, ease: luxe }}
+            className="absolute right-0 top-full z-50 mt-3 w-48 border border-[color:var(--border-soft)] bg-ivory py-2 shadow-[0_18px_40px_-24px_rgba(26,26,24,0.4)]"
+          >
+            <li className="px-4 pb-2 pt-1">
+              <span className="font-mono text-[0.5rem] uppercase tracking-[0.2em] text-carbon/50">
+                Language
+              </span>
+            </li>
+            {LANGUAGES.map((l) => {
+              const active = l.code === lang;
+              return (
+                <li key={l.code} role="option" aria-selected={active}>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLang(l.code);
+                      setOpen(false);
+                    }}
+                    className={cn(
+                      "flex w-full items-center justify-between px-4 py-2 text-left font-sans text-body transition-colors",
+                      active ? "text-gold" : "text-carbon hover:bg-champagne/40 hover:text-obsidian"
+                    )}
+                  >
+                    {l.label}
+                    <span className="font-mono text-[0.625rem] tracking-[0.16em] text-carbon/50">
+                      {l.code}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function IconAccount() {
   return (
@@ -78,8 +180,9 @@ export function Navigation() {
           ))}
         </nav>
 
-        {/* Account + cart — right */}
+        {/* Language + account + cart — right */}
         <div className="flex items-center gap-5 text-obsidian">
+          <LanguageMenu />
           <Link href="/account" aria-label="Account" className="hidden transition-colors duration-400 hover:text-gold sm:block">
             <IconAccount />
           </Link>
