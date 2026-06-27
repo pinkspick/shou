@@ -21,6 +21,8 @@ import {
   type Configuration,
 } from "@/lib/pricing";
 import { buildWhatsAppUrl } from "@/lib/site";
+import { useCart } from "@/components/cart/CartContext";
+import { configSummary, type CartConfig } from "@/lib/cart";
 
 /* Ring sizes 4–12 in half steps. */
 const RING_SIZES = Array.from({ length: 17 }, (_, i) => 4 + i * 0.5);
@@ -58,6 +60,7 @@ export function Configurator({ product }: { product: Product }) {
   const [cut, setCut] = useState<Cut>(product.cut);
   const [size, setSize] = useState<number | null>(null);
   const [wishlisted, setWishlisted] = useState(false);
+  const { addItem } = useCart();
 
   const isRing = product.category === "rings";
   const onEvent = isOnEvent(product.popularity);
@@ -77,17 +80,21 @@ export function Configurator({ product }: { product: Product }) {
   const sale = onEvent ? eventPrice(price) : price;
 
   function handleAddToCart() {
-    // No cart state yet — wired in Phase 07.
-    // eslint-disable-next-line no-console
-    console.log("Add to Cart", {
-      id: product.id,
-      slug: product.slug,
+    const config: CartConfig = {
       metal,
-      carat,
+      carat: platinum ? undefined : carat,
       stone,
       cut,
       size: isRing ? size : undefined,
-      price: sale,
+    };
+    addItem({
+      productId: product.id,
+      slug: product.slug,
+      category: product.category,
+      name: product.name,
+      descriptor: configSummary(config),
+      unitPrice: sale,
+      config,
     });
   }
 

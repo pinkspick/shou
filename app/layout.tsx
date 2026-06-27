@@ -3,6 +3,8 @@ import { fontVariables } from "@/lib/fonts";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { CookieBanner } from "@/components/CookieBanner";
+import { CartProvider } from "@/components/cart/CartContext";
+import { CartDrawer } from "@/components/cart/CartDrawer";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -29,10 +31,13 @@ export default function RootLayout({
   return (
     <html lang="en" className={fontVariables}>
       <body className="min-h-screen bg-ivory text-obsidian antialiased">
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
-        <CookieBanner />
+        <CartProvider>
+          <Navigation />
+          <main>{children}</main>
+          <Footer />
+          <CartDrawer />
+          <CookieBanner />
+        </CartProvider>
       </body>
     </html>
   );

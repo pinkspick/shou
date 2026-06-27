@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { CutDiagram } from "./CutDiagram";
 import { PreviewCard } from "./PreviewCard";
+import { useCart } from "@/components/cart/CartContext";
 import { customPrice } from "@/lib/pricing";
 import {
   CUTS,
@@ -26,7 +27,9 @@ import {
   STONE_SWATCH,
   configToParams,
   furthestStep,
+  metalLabel,
   paramsToConfig,
+  sizeLabelFor,
   sizeStepFor,
   stepDone,
   type CustomConfig,
@@ -66,6 +69,7 @@ export function CustomizeWizard() {
   const [maxStep, setMaxStep] = useState(1);
   const [copied, setCopied] = useState(false);
   const [added, setAdded] = useState(false);
+  const { addItem } = useCart();
   const hydrated = useRef(false);
 
   /* ---- Hydrate once: URL params take priority, then localStorage ---- */
@@ -156,9 +160,34 @@ export function CustomizeWizard() {
   const canContinue = step === 7 ? true : done[step - 1];
 
   const onAddToCart = () => {
-    // No cart backend yet (Phase 07) — log the build.
-    // eslint-disable-next-line no-console
-    console.log("Add custom build to cart:", config, "price:", price);
+    if (!complete || !config.piece) return;
+    const sizeLabel = config.size ? sizeLabelFor(config.piece, config.size) : null;
+    const pieceWord = config.piece.replace(/s$/, "");
+    const name = `Bespoke ${pieceWord.charAt(0).toUpperCase()}${pieceWord.slice(1)}`;
+    const descriptor = [
+      config.metal ? metalLabel(config) : null,
+      config.stone,
+      config.cut,
+      sizeLabel,
+    ]
+      .filter(Boolean)
+      .join(" · ");
+
+    addItem({
+      // size folded into the id so two builds differing only by size stay distinct
+      productId: `custom-${config.piece}-${config.size ?? "na"}`,
+      slug: "customize",
+      category: config.piece,
+      name,
+      descriptor,
+      unitPrice: price,
+      config: {
+        metal: config.metal ?? undefined,
+        carat: config.carat ?? undefined,
+        stone: config.stone ?? undefined,
+        cut: config.cut ?? undefined,
+      },
+    });
     setAdded(true);
     setTimeout(() => setAdded(false), 2600);
   };

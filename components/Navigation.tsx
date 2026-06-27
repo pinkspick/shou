@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/components/cart/CartContext";
 
 const NAV_LINKS = [
   { label: "Shop", href: "/shop" },
@@ -220,6 +221,7 @@ function IconBag() {
 export function Navigation() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const { count, openDrawer } = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -272,12 +274,19 @@ export function Navigation() {
           <Link href="/account" aria-label="Account" className="hidden transition-colors duration-400 hover:text-gold sm:block">
             <IconAccount />
           </Link>
-          <Link href="/cart" aria-label="Cart" className="relative transition-colors duration-400 hover:text-gold">
+          <button
+            type="button"
+            onClick={openDrawer}
+            aria-label={`Cart${count ? ` — ${count} item${count > 1 ? "s" : ""}` : ""}`}
+            className="relative transition-colors duration-400 hover:text-gold"
+          >
             <IconBag />
-            <span className="absolute -right-2 -top-2 grid h-4 w-4 place-items-center rounded-full bg-gold font-mono text-[0.5rem] text-white">
-              0
-            </span>
-          </Link>
+            {count > 0 && (
+              <span className="absolute -right-2 -top-2 grid h-4 w-4 place-items-center rounded-full bg-gold font-mono text-[0.5rem] text-white">
+                {count}
+              </span>
+            )}
+          </button>
           {/* Hamburger — mobile */}
           <button
             type="button"
@@ -345,7 +354,16 @@ export function Navigation() {
             </nav>
             <div className="flex items-center justify-center gap-8 pb-12 font-mono text-caption uppercase tracking-[0.18em] text-carbon">
               <Link href="/account" onClick={() => setOpen(false)}>Account</Link>
-              <Link href="/cart" onClick={() => setOpen(false)}>Cart (0)</Link>
+              <button
+                type="button"
+                onClick={() => {
+                  setOpen(false);
+                  openDrawer();
+                }}
+                className="uppercase tracking-[0.18em]"
+              >
+                Cart ({count})
+              </button>
             </div>
           </motion.div>
         )}
