@@ -93,7 +93,7 @@ export function ConfirmationStep({ order }: { order: PlacedOrder }) {
 
       <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
         <Link
-          href={`/track?number=${encodeURIComponent(order.number)}`}
+          href={`/orders/${encodeURIComponent(order.number)}`}
           className="rounded-button bg-obsidian px-7 py-4 font-mono text-caption uppercase tracking-[0.2em] text-ivory transition-colors hover:bg-gold"
         >
           Track Your Order
