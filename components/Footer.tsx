@@ -15,15 +15,15 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
     title: "About",
     links: [
       { label: "Our Story", href: "/about" },
-      { label: "The Science of Light", href: "/science" },
+      { label: "Craftsmanship", href: "/craftsmanship" },
+      { label: "Materials & Science", href: "/materials" },
       { label: "Sustainability", href: "/sustainability" },
-      { label: "Craftsmanship", href: "/atelier" },
     ],
   },
   {
     title: "Service",
     links: [
-      { label: "Lifetime Care", href: "/service" },
+      { label: "Lifetime Care", href: "/lifetime-service" },
       { label: "Track My Order", href: "/tracking" },
       { label: "Book an Appointment", href: "/appointment" },
       { label: "Origin Certificate", href: "/certificate" },
