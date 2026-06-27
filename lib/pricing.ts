@@ -6,7 +6,7 @@
  * we re-derive the price from a set of multipliers + addends. This is
  * placeholder economics — plausible, not a real bill of materials.
  */
-import type { Carat, Cut, Metal, Stone } from "./products";
+import type { Carat, Category, Cut, Metal, Stone } from "./products";
 
 /** Gold purity multiplier (more gold → more value). Platinum priced via metal. */
 const CARAT_MULTIPLIER: Record<Carat, number> = {
@@ -89,4 +89,30 @@ export function isOnEvent(popularity: number): boolean {
 /** Apply the event discount, rounded to the nearest $10. */
 export function eventPrice(price: number): number {
   return Math.round((price * (1 - EVENT_DISCOUNT)) / 10) * 10;
+}
+
+/* ------------------------------------------------------------------
+   Custom configurator pricing (/customize) — no base product, so we
+   start from a per-piece base and apply the same multipliers. Any
+   attribute not yet chosen is treated as neutral (×1), so the price
+   rises naturally as the client builds.
+   ------------------------------------------------------------------ */
+export const CUSTOM_BASE: Record<Category, number> = {
+  rings: 2600,
+  necklaces: 2400,
+  bracelets: 4200,
+  earrings: 1800,
+};
+
+export function customPrice(
+  piece: Category | null,
+  cfg: { metal?: Metal; carat?: Carat; stone?: Stone; cut?: Cut }
+): number {
+  const base = piece ? CUSTOM_BASE[piece] : 2500;
+  const factor =
+    (cfg.carat ? CARAT_MULTIPLIER[cfg.carat] : 1) *
+    (cfg.stone ? STONE_MULTIPLIER[cfg.stone] : 1) *
+    (cfg.cut ? CUT_MULTIPLIER[cfg.cut] : 1) *
+    (cfg.metal ? METAL_MULTIPLIER[cfg.metal] : 1);
+  return Math.round((base * factor) / 10) * 10;
 }

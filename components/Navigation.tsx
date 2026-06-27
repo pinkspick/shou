@@ -7,10 +7,18 @@ import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { label: "Shop", href: "/shop" },
+  { label: "Customize", href: "/customize" },
   { label: "Collections", href: "/collections" },
   { label: "The Science", href: "/science" },
   { label: "About", href: "/about" },
   { label: "Service", href: "/service" },
+];
+
+/* Occasion landing pages — surfaced as a hover dropdown beside the nav links. */
+const OCCASION_LINKS = [
+  { label: "Birthday", href: "/occasions/birthday", blurb: "A year brighter." },
+  { label: "Anniversary", href: "/occasions/anniversary", blurb: "Another orbit, together." },
+  { label: "Wedding", href: "/occasions/wedding", blurb: "The promise made permanent." },
 ];
 
 /* Language only — we ship a single worldwide storefront (no regional domains). */
@@ -115,6 +123,82 @@ function LanguageMenu() {
   );
 }
 
+function OccasionsMenu() {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
+  const openNow = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setOpen(true);
+  };
+  const closeSoon = () => {
+    closeTimer.current = setTimeout(() => setOpen(false), 120);
+  };
+
+  return (
+    <div
+      ref={ref}
+      className="relative"
+      onMouseEnter={openNow}
+      onMouseLeave={closeSoon}
+    >
+      <button
+        type="button"
+        aria-haspopup="true"
+        aria-expanded={open}
+        onClick={() => setOpen((v) => !v)}
+        className="link-underline inline-flex items-center gap-1 font-mono text-caption uppercase tracking-[0.18em] text-carbon hover:text-obsidian"
+      >
+        Occasions
+        <svg
+          viewBox="0 0 24 24"
+          className="h-3 w-3 transition-transform duration-300"
+          style={{ transform: open ? "rotate(180deg)" : "none" }}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+        >
+          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.25, ease: luxe }}
+            className="absolute left-1/2 top-full z-50 mt-4 w-64 -translate-x-1/2 border border-[color:var(--border-soft)] bg-ivory p-2 shadow-[0_18px_40px_-24px_rgba(26,26,24,0.4)]"
+          >
+            {OCCASION_LINKS.map((o) => (
+              <Link
+                key={o.href}
+                href={o.href}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-3 transition-colors hover:bg-champagne/40"
+              >
+                <span className="font-display text-body-lg text-obsidian">{o.label}</span>
+                <span className="mt-0.5 block font-sans text-caption text-carbon">
+                  {o.blurb}
+                </span>
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 function IconAccount() {
   return (
     <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
@@ -178,6 +262,7 @@ export function Navigation() {
               {l.label}
             </Link>
           ))}
+          <OccasionsMenu />
         </nav>
 
         {/* Language + account + cart — right */}
@@ -230,7 +315,7 @@ export function Navigation() {
                 ×
               </button>
             </div>
-            <nav className="flex flex-1 flex-col items-center justify-center gap-8">
+            <nav className="flex flex-1 flex-col items-center justify-center gap-7">
               {NAV_LINKS.map((l) => (
                 <Link
                   key={l.href}
@@ -241,6 +326,21 @@ export function Navigation() {
                   {l.label}
                 </Link>
               ))}
+              <div className="mt-2 flex flex-col items-center gap-3 border-t border-[color:var(--border-soft)] pt-6">
+                <span className="font-mono text-[0.625rem] uppercase tracking-[0.2em] text-carbon/50">
+                  Occasions
+                </span>
+                {OCCASION_LINKS.map((o) => (
+                  <Link
+                    key={o.href}
+                    href={o.href}
+                    onClick={() => setOpen(false)}
+                    className="font-display text-h3 text-obsidian hover:text-gold"
+                  >
+                    {o.label}
+                  </Link>
+                ))}
+              </div>
             </nav>
             <div className="flex items-center justify-center gap-8 pb-12 font-mono text-caption uppercase tracking-[0.18em] text-carbon">
               <Link href="/account" onClick={() => setOpen(false)}>Account</Link>
