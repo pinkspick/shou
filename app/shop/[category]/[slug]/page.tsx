@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ProductDetail } from "@/components/product/ProductDetail";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { productJsonLd, breadcrumbJsonLd } from "@/lib/seo";
 import {
   CATEGORY_LABELS,
   PRODUCTS,
@@ -19,13 +21,27 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: { params: Params }): Metadata {
   const product = getProduct(params.category, params.slug);
   if (!product) return { title: "Shop" };
+  const description = `${product.name} — ${product.descriptor}. ${formatPrice(
+    product.price
+  )}. Lab-grown ${CATEGORY_LABELS[
+    product.category as Category
+  ].toLowerCase()} by Lumière.`;
   return {
     title: product.name,
-    description: `${product.name} — ${product.descriptor}. ${formatPrice(
-      product.price
-    )}. Lab-grown ${CATEGORY_LABELS[
-      product.category as Category
-    ].toLowerCase()} by Lumière.`,
+    description,
+    openGraph: {
+      title: `${product.name} · Lumière`,
+      description,
+      type: "website",
+      images: [
+        {
+          url: `/og/product-${product.category}.jpg`,
+          width: 1200,
+          height: 630,
+          alt: product.name,
+        },
+      ],
+    },
   };
 }
 
@@ -34,5 +50,24 @@ export default function ProductPage({ params }: { params: Params }) {
   const product = getProduct(params.category, params.slug);
   if (!product) notFound();
 
-  return <ProductDetail product={product} />;
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Shop", path: "/shop" },
+    {
+      name: CATEGORY_LABELS[product.category as Category],
+      path: `/shop/${product.category}`,
+    },
+    {
+      name: product.name,
+      path: `/shop/${product.category}/${product.slug}`,
+    },
+  ]);
+
+  return (
+    <>
+      <JsonLd data={productJsonLd(product)} />
+      <JsonLd data={breadcrumbs} />
+      <ProductDetail product={product} />
+    </>
+  );
 }

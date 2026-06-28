@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { LumiereBox } from "@/components/cart/LumiereBox";
+import { ShareButtons } from "@/components/social/ShareButtons";
 import { formatPrice } from "@/lib/products";
 
 export type PlacedOrder = {
@@ -29,27 +30,6 @@ export function ConfirmationStep({ order }: { order: PlacedOrder }) {
   }, []);
 
   const shareText = `I just got my ${order.firstProductName} from Lumière ✨`;
-  const shareUrl =
-    typeof window !== "undefined" ? window.location.origin : "https://lumiere.example";
-
-  const share = async () => {
-    const nav = navigator as Navigator & {
-      share?: (d: ShareData) => Promise<void>;
-    };
-    if (nav.share) {
-      try {
-        await nav.share({ title: "Lumière", text: shareText, url: shareUrl });
-        return;
-      } catch {
-        /* dismissed */
-      }
-    }
-    try {
-      await navigator.clipboard.writeText(`${shareText} ${shareUrl}`);
-    } catch {
-      /* no clipboard — no-op */
-    }
-  };
 
   return (
     <motion.div
@@ -98,13 +78,10 @@ export function ConfirmationStep({ order }: { order: PlacedOrder }) {
         >
           Track Your Order
         </Link>
-        <button
-          type="button"
-          onClick={share}
-          className="rounded-button border border-obsidian px-7 py-4 font-mono text-caption uppercase tracking-[0.2em] text-obsidian transition-colors hover:bg-obsidian hover:text-ivory"
-        >
-          Share the Moment
-        </button>
+      </div>
+
+      <div className="mt-8 flex justify-center">
+        <ShareButtons label="Share the moment" text={shareText} />
       </div>
 
       <Link

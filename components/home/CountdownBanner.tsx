@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
  * Live DD:HH:MM:SS countdown to a fixed target. Clamps at zero when the
  * event has passed (never shows negative time).
  */
-const TARGET = new Date("2025-09-01T00:00:00").getTime();
+const TARGET = new Date("2026-09-01T00:00:00").getTime();
 
 type Remaining = { days: number; hours: number; minutes: number; seconds: number };
 

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { buildWhatsAppUrl, INSTAGRAM_URL } from "@/lib/site";
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -17,27 +18,30 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
       { label: "Our Story", href: "/about" },
       { label: "Craftsmanship", href: "/craftsmanship" },
       { label: "Materials & Science", href: "/materials" },
-      { label: "Sustainability", href: "/sustainability" },
+      { label: "Our Packaging", href: "/packaging" },
     ],
   },
   {
     title: "Service",
     links: [
       { label: "Lifetime Care", href: "/lifetime-service" },
-      { label: "Track My Order", href: "/tracking" },
-      { label: "Book an Appointment", href: "/appointment" },
-      { label: "Origin Certificate", href: "/certificate" },
+      { label: "Track My Order", href: "/track" },
+      { label: "Book an Appointment", href: "/book-appointment" },
+      { label: "Certification", href: "/certificate" },
       { label: "Shipping & Returns", href: "/shipping" },
     ],
   },
   {
     title: "Social",
     links: [
-      { label: "Instagram", href: "https://instagram.com" },
+      { label: "Instagram", href: INSTAGRAM_URL },
       { label: "TikTok", href: "https://tiktok.com" },
       { label: "Pinterest", href: "https://pinterest.com" },
       { label: "YouTube", href: "https://youtube.com" },
-      { label: "WhatsApp", href: "https://wa.me/" },
+      {
+        label: "WhatsApp",
+        href: buildWhatsAppUrl("Hi, I'm browsing Lumière and have a question."),
+      },
     ],
   },
 ];

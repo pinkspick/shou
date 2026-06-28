@@ -2,6 +2,7 @@ import { Hero } from "@/components/home/Hero";
 import { CountdownBanner } from "@/components/home/CountdownBanner";
 import { EarthStory } from "@/components/home/EarthStory";
 import { EditorialStrip } from "@/components/home/EditorialStrip";
+import { InstagramFeed } from "@/components/home/InstagramFeed";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
 
 /**
@@ -17,6 +18,7 @@ export default function Home() {
       <CountdownBanner />
       <EarthStory />
       <EditorialStrip />
+      <InstagramFeed />
       <CategoryGrid />
     </>
   );

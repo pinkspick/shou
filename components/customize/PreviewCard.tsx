@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { CutDiagram } from "./CutDiagram";
+import { ShareButtons } from "@/components/social/ShareButtons";
 import { formatPrice, METALS, type Metal } from "@/lib/products";
 import {
   STONE_HEX,
@@ -128,8 +129,16 @@ export function PreviewCard({
           onClick={onShare}
           className="mt-3 w-full rounded-button border border-obsidian py-3 font-mono text-caption uppercase tracking-[0.18em] text-obsidian transition-colors hover:border-gold hover:text-gold"
         >
-          {copied ? "Link Copied ✓" : "Share This Design"}
+          {copied ? "Link Copied ✓" : "Copy Design Link"}
         </button>
+
+        {/* Social share */}
+        <div className="mt-5 border-t border-[color:var(--border-soft)] pt-5">
+          <ShareButtons
+            label="Share your design"
+            text={`I designed my own ${config.piece ? config.piece.replace(/s$/, "") : "piece"} at Lumière ✨`}
+          />
+        </div>
       </div>
     </div>
   );

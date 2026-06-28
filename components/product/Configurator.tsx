@@ -23,6 +23,7 @@ import {
 import { buildWhatsAppUrl } from "@/lib/site";
 import { useCart } from "@/components/cart/CartContext";
 import { configSummary, type CartConfig } from "@/lib/cart";
+import { ShareButtons } from "@/components/social/ShareButtons";
 
 /* Ring sizes 4–12 in half steps. */
 const RING_SIZES = Array.from({ length: 17 }, (_, i) => 4 + i * 0.5);
@@ -293,6 +294,14 @@ export function Configurator({ product }: { product: Product }) {
         >
           Book a Consultation
         </a>
+      </div>
+
+      {/* Share */}
+      <div className="border-t border-[color:var(--border-soft)] pt-6">
+        <ShareButtons
+          label="Share this piece"
+          text={`The ${product.name} from Lumière ✨`}
+        />
       </div>
     </div>
   );
