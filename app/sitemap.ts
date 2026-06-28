@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_ORIGIN } from "@/lib/site";
 import { CATEGORIES, PRODUCTS } from "@/lib/products";
+import { OCCASION_SLUGS } from "@/lib/occasions";
 
 /**
  * Sitemap — generated at build time. Covers editorial pages, shop
@@ -21,7 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/book-appointment",
     "/customize",
     "/try-on",
-    "/occasions",
     "/track",
   ];
 
@@ -46,5 +46,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.5,
   }));
 
-  return [...staticEntries, ...categoryEntries, ...productEntries];
+  const occasionEntries: MetadataRoute.Sitemap = OCCASION_SLUGS.map((slug) => ({
+    url: `${SITE_ORIGIN}/occasions/${slug}`,
+    lastModified: now,
+    changeFrequency: "weekly",
+    priority: 0.5,
+  }));
+
+  return [
+    ...staticEntries,
+    ...categoryEntries,
+    ...productEntries,
+    ...occasionEntries,
+  ];
 }
