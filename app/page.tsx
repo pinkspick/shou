@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/Hero";
+import { ServiceStrip } from "@/components/home/ServiceStrip";
 import { CountdownBanner } from "@/components/home/CountdownBanner";
 import { EarthStory } from "@/components/home/EarthStory";
 import { EditorialStrip } from "@/components/home/EditorialStrip";
@@ -15,6 +16,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <ServiceStrip />
       <CountdownBanner />
       <EarthStory />
       <EditorialStrip />

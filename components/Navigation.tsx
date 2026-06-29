@@ -162,24 +162,33 @@ export function Navigation() {
       )}
     >
       <div className="mx-auto flex max-w-content items-center justify-between px-6 md:px-8">
-        {/* Logo — left */}
-        <Link href="/" className="flex items-baseline gap-2 text-obsidian" aria-label="Lumière home">
+        {/* Menu trigger — left */}
+        <button
+          type="button"
+          aria-label="Open menu"
+          aria-expanded={open}
+          onClick={() => setOpen(true)}
+          className="flex items-center gap-3 text-obsidian transition-colors duration-400 hover:text-gold"
+        >
+          <span className="flex flex-col gap-[5px]">
+            <span className="h-px w-6 bg-current" />
+            <span className="h-px w-6 bg-current" />
+            <span className="h-px w-6 bg-current" />
+          </span>
+          <span className="hidden font-mono text-caption uppercase tracking-[0.18em] sm:inline">
+            Menu
+          </span>
+        </button>
+
+        {/* Logo — center */}
+        <Link
+          href="/"
+          className="flex items-baseline gap-2 text-obsidian"
+          aria-label="Lumière home"
+        >
           <span className="text-gold leading-none">◆</span>
           <span className="font-display text-h3 tracking-[0.3em]">LUMIÈRE</span>
         </Link>
-
-        {/* Links — center (desktop) */}
-        <nav className="hidden items-center gap-8 lg:flex">
-          {NAV_LINKS.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="link-underline font-mono text-caption uppercase tracking-[0.18em] text-carbon hover:text-obsidian"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
 
         {/* Language + account + cart — right */}
         <div className="flex items-center gap-5 text-obsidian">
@@ -200,70 +209,82 @@ export function Navigation() {
               </span>
             )}
           </button>
-          {/* Hamburger — mobile */}
-          <button
-            type="button"
-            aria-label="Open menu"
-            aria-expanded={open}
-            onClick={() => setOpen(true)}
-            className="flex flex-col gap-[5px] lg:hidden"
-          >
-            <span className="h-px w-6 bg-obsidian" />
-            <span className="h-px w-6 bg-obsidian" />
-            <span className="h-px w-6 bg-obsidian" />
-          </button>
         </div>
       </div>
 
-      {/* Full-screen mobile overlay */}
+      {/* Left slide-out sidebar */}
       <AnimatePresence>
         {open && (
-          <motion.div
-            className="fixed inset-0 z-50 flex flex-col bg-ivory lg:hidden"
-            initial={{ opacity: 0, y: -16 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -16 }}
-            transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          >
-            <div className="flex items-center justify-between px-6 py-6">
-              <span className="font-display text-h3 tracking-[0.3em] text-obsidian">
-                <span className="text-gold">◆</span> LUMIÈRE
-              </span>
-              <button
-                type="button"
-                aria-label="Close menu"
-                onClick={() => setOpen(false)}
-                className="text-2xl leading-none text-obsidian"
-              >
-                ×
-              </button>
-            </div>
-            <nav className="flex flex-1 flex-col items-center justify-center gap-7">
-              {NAV_LINKS.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              className="fixed inset-0 z-40 bg-obsidian/40 backdrop-blur-sm"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.4, ease: luxe }}
+              onClick={() => setOpen(false)}
+            />
+            {/* Drawer */}
+            <motion.aside
+              className="fixed inset-y-0 left-0 z-50 flex w-[88%] max-w-sm flex-col bg-ivory shadow-[24px_0_60px_-30px_rgba(26,26,24,0.5)]"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ duration: 0.5, ease: luxe }}
+            >
+              <div className="flex items-center justify-between border-b border-[color:var(--divider)] px-7 py-6">
+                <span className="font-display text-h3 tracking-[0.3em] text-obsidian">
+                  <span className="text-gold">◆</span> LUMIÈRE
+                </span>
+                <button
+                  type="button"
+                  aria-label="Close menu"
                   onClick={() => setOpen(false)}
-                  className="font-display text-h2 text-obsidian hover:text-gold"
+                  className="text-2xl leading-none text-obsidian transition-colors hover:text-gold"
                 >
-                  {l.label}
+                  ×
+                </button>
+              </div>
+              <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-7 py-8">
+                {NAV_LINKS.map((l, i) => (
+                  <motion.div
+                    key={l.href}
+                    initial={{ opacity: 0, x: -16 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.4, ease: luxe, delay: 0.1 + i * 0.05 }}
+                  >
+                    <Link
+                      href={l.href}
+                      onClick={() => setOpen(false)}
+                      className="block border-b border-[color:var(--divider)] py-4 font-display text-h3 text-obsidian transition-colors hover:text-gold"
+                    >
+                      {l.label}
+                    </Link>
+                  </motion.div>
+                ))}
+              </nav>
+              <div className="flex items-center gap-8 border-t border-[color:var(--divider)] px-7 py-6 font-mono text-caption uppercase tracking-[0.18em] text-carbon">
+                <Link
+                  href="/account"
+                  onClick={() => setOpen(false)}
+                  className="transition-colors hover:text-obsidian"
+                >
+                  Account
                 </Link>
-              ))}
-            </nav>
-            <div className="flex items-center justify-center gap-8 pb-12 font-mono text-caption uppercase tracking-[0.18em] text-carbon">
-              <Link href="/account" onClick={() => setOpen(false)}>Account</Link>
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  openDrawer();
-                }}
-                className="uppercase tracking-[0.18em]"
-              >
-                Cart ({count})
-              </button>
-            </div>
-          </motion.div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openDrawer();
+                  }}
+                  className="uppercase tracking-[0.18em] transition-colors hover:text-obsidian"
+                >
+                  Cart ({count})
+                </button>
+              </div>
+            </motion.aside>
+          </>
         )}
       </AnimatePresence>
     </header>
