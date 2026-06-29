@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui";
 import type { Product } from "@/lib/products";
-import { GemArt } from "./GemArt";
+import { JewelryArt } from "./JewelryArt";
 import { SpinningDiamond } from "./SpinningDiamond";
 
 const luxe = [0.25, 0.46, 0.45, 0.94] as const;
@@ -100,7 +100,7 @@ export function Gallery({ product }: { product: Product }) {
                   className="object-cover"
                 />
               ) : (
-                <GemArt product={product} className="relative h-full w-full" />
+                <JewelryArt product={product} className="relative h-full w-full" />
               )}
               <span className="absolute bottom-4 left-4 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-carbon/45">
                 {current.label}
@@ -200,7 +200,7 @@ export function Gallery({ product }: { product: Product }) {
                 className="object-cover"
               />
             ) : (
-              <GemArt product={product} className="absolute inset-0" />
+              <JewelryArt product={product} className="absolute inset-0" />
             )}
           </button>
         ))}

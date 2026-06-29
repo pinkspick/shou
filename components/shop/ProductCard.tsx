@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui";
-import { GemArt } from "@/components/product/GemArt";
+import { JewelryArt } from "@/components/product/JewelryArt";
 import { formatPrice, type Product } from "@/lib/products";
 
 /* Inline icons (stroke = currentColor) */
@@ -70,7 +70,7 @@ export function ProductCard({
               className="object-cover transition-transform duration-700 ease-luxe group-hover:scale-105"
             />
           ) : (
-            <GemArt
+            <JewelryArt
               product={product}
               className="relative h-full w-full transition-transform duration-700 ease-luxe group-hover:scale-105"
             />
