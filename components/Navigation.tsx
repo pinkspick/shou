@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/components/cart/CartContext";
+import { CrystalMotif } from "@/components/product/GemArt";
 
 const NAV_LINKS = [
   { label: "Collection", href: "/shop" },
@@ -229,13 +230,35 @@ export function Navigation() {
             />
             {/* Drawer */}
             <motion.aside
-              className="fixed inset-y-0 left-0 z-50 flex w-[88%] max-w-sm flex-col bg-ivory shadow-[24px_0_60px_-30px_rgba(26,26,24,0.5)]"
+              className="fixed inset-y-0 left-0 z-50 flex w-[88%] max-w-sm flex-col overflow-hidden bg-ivory shadow-[24px_0_60px_-30px_rgba(26,26,24,0.5)] isolate"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
               transition={{ duration: 0.5, ease: luxe }}
             >
-              <div className="flex items-center justify-between border-b border-[color:var(--divider)] px-7 py-6">
+              {/* Crystal art — decorative, sits behind the menu content */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+                <CrystalMotif
+                  motif="bloom"
+                  stone="Pink Diamond"
+                  uid="menu-bloom"
+                  className="absolute -right-16 top-16 h-72 w-72 opacity-40"
+                />
+                <CrystalMotif
+                  motif="butterfly"
+                  stone="Sapphire"
+                  uid="menu-butterfly"
+                  className="absolute -left-12 top-1/2 h-52 w-52 opacity-30"
+                />
+                <CrystalMotif
+                  motif="lotus"
+                  stone="Emerald"
+                  uid="menu-lotus"
+                  className="absolute -bottom-10 right-4 h-60 w-60 opacity-35"
+                />
+              </div>
+
+              <div className="relative z-10 flex items-center justify-between border-b border-[color:var(--divider)] px-7 py-6">
                 <span className="font-display text-h3 tracking-[0.3em] text-obsidian">
                   <span className="text-gold">◆</span> LUMIÈRE
                 </span>
@@ -248,7 +271,7 @@ export function Navigation() {
                   ×
                 </button>
               </div>
-              <nav className="flex flex-1 flex-col gap-1 overflow-y-auto px-7 py-8">
+              <nav className="relative z-10 flex flex-1 flex-col gap-1 overflow-y-auto px-7 py-8">
                 {NAV_LINKS.map((l, i) => (
                   <motion.div
                     key={l.href}
@@ -266,7 +289,7 @@ export function Navigation() {
                   </motion.div>
                 ))}
               </nav>
-              <div className="flex items-center gap-8 border-t border-[color:var(--divider)] px-7 py-6 font-mono text-caption uppercase tracking-[0.18em] text-carbon">
+              <div className="relative z-10 flex items-center gap-8 border-t border-[color:var(--divider)] bg-ivory/70 px-7 py-6 font-mono text-caption uppercase tracking-[0.18em] text-carbon backdrop-blur-sm">
                 <Link
                   href="/account"
                   onClick={() => setOpen(false)}

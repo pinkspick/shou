@@ -2,6 +2,7 @@ import { Hero } from "@/components/home/Hero";
 import { ServiceStrip } from "@/components/home/ServiceStrip";
 import { CountdownBanner } from "@/components/home/CountdownBanner";
 import { EarthStory } from "@/components/home/EarthStory";
+import { CrystalGallery } from "@/components/home/CrystalGallery";
 import { EditorialStrip } from "@/components/home/EditorialStrip";
 import { InstagramFeed } from "@/components/home/InstagramFeed";
 import { CategoryGrid } from "@/components/home/CategoryGrid";
@@ -19,6 +20,7 @@ export default function Home() {
       <ServiceStrip />
       <CountdownBanner />
       <EarthStory />
+      <CrystalGallery />
       <EditorialStrip />
       <InstagramFeed />
       <CategoryGrid />

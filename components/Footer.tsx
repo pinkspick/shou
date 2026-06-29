@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { buildWhatsAppUrl, INSTAGRAM_URL } from "@/lib/site";
+import { CrystalMotif } from "@/components/product/GemArt";
 
 const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
   {
@@ -48,8 +49,24 @@ const COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="bg-ivory text-carbon">
-      <div className="mx-auto max-w-content px-6 pb-12 pt-24 md:px-8">
+    <footer className="relative isolate overflow-hidden bg-ivory text-carbon">
+      {/* Crystal art — decorative house signature */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+        <CrystalMotif
+          motif="clover"
+          stone="Pink Diamond"
+          uid="footer-clover"
+          className="absolute -right-16 top-6 h-64 w-64 opacity-30 md:h-80 md:w-80"
+        />
+        <CrystalMotif
+          motif="lotus"
+          stone="Sapphire"
+          uid="footer-lotus"
+          className="absolute -left-20 bottom-0 h-60 w-60 opacity-25"
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-content px-6 pb-12 pt-24 md:px-8">
         {/* Brand line */}
         <div className="mb-12 flex flex-col gap-2">
           <span className="font-display text-h2 tracking-[0.3em] text-obsidian">

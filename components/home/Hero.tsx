@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { CrystalMotif } from "@/components/product/GemArt";
 
 /**
  * SECTION 1 — HERO
@@ -35,6 +36,28 @@ export function Hero() {
         aria-hidden
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_50%_-10%,rgba(255,255,255,0.9),transparent_60%)]"
       />
+
+      {/* Floating crystal figurines — house signature */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <CrystalMotif
+          motif="clover"
+          stone="Pink Diamond"
+          uid="hero-clover"
+          className="absolute -left-10 top-[14%] h-56 w-56 opacity-50 md:left-[4%] md:h-72 md:w-72"
+        />
+        <CrystalMotif
+          motif="butterfly"
+          stone="Sapphire"
+          uid="hero-butterfly"
+          className="absolute -right-12 top-[12%] h-52 w-52 opacity-45 md:right-[5%] md:h-72 md:w-72"
+        />
+        <CrystalMotif
+          motif="lotus"
+          stone="Emerald"
+          uid="hero-lotus"
+          className="absolute bottom-[8%] left-1/2 h-44 w-44 -translate-x-1/2 opacity-40 md:h-56 md:w-56"
+        />
+      </div>
 
       {/* --- Overlaid headline --- */}
       <Stagger className="relative z-10 mx-auto flex max-w-content flex-col items-center px-6 text-center">
