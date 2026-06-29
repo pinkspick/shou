@@ -4,7 +4,7 @@ import { AppointmentBooking } from "@/components/appointment/AppointmentBooking"
 export const metadata: Metadata = {
   title: "Book an Appointment",
   description:
-    "Visit the Lumière atelier in person or virtually. Reserve a private consultation with our gemologists to explore stones, settings and bespoke design.",
+    "Reserve a private virtual consultation with the Lumière gemologists to explore stones, settings and bespoke design from anywhere in the world.",
 };
 
 export default function BookAppointmentPage() {
@@ -14,11 +14,12 @@ export default function BookAppointmentPage() {
         <div className="mx-auto max-w-content px-6 py-20 text-center md:px-8 md:py-28">
           <span className="overline text-gold">Private Consultations</span>
           <h1 className="mx-auto mt-4 max-w-3xl font-display text-h1 text-obsidian">
-            Visit the Atelier. In Person or Virtually.
+            A Private Virtual Consultation.
           </h1>
           <p className="mx-auto mt-5 max-w-xl font-sans text-body-lg text-carbon">
-            Sit with our gemologists, hold the light in your hands, and shape a
-            piece that&rsquo;s entirely yours. Choose a moment that suits you.
+            Sit with our gemologists over a private video call, hold the light up
+            to your screen, and shape a piece that&rsquo;s entirely yours — from
+            anywhere in the world.
           </p>
         </div>
       </section>

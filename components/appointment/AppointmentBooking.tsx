@@ -2,14 +2,9 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  ATELIER_ADDRESS,
-  buildWhatsAppUrl,
-} from "@/lib/site";
+import { buildWhatsAppUrl } from "@/lib/site";
 
 const luxe = [0.25, 0.46, 0.45, 0.94] as const;
-
-type Mode = "in-person" | "virtual";
 
 const TIME_SLOTS = [
   "09:00 AM",
@@ -28,12 +23,7 @@ const TYPES = [
   "Service",
 ] as const;
 
-const MAP_SRC = `https://maps.google.com/maps?q=${encodeURIComponent(
-  ATELIER_ADDRESS.query,
-)}&z=15&output=embed`;
-
 export function AppointmentBooking() {
-  const [mode, setMode] = useState<Mode>("in-person");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -66,7 +56,7 @@ export function AppointmentBooking() {
           phone,
           date,
           time,
-          mode,
+          mode: "virtual",
           type,
           notes,
         }),
@@ -128,58 +118,14 @@ export function AppointmentBooking() {
 
   return (
     <div className="mx-auto max-w-3xl">
-      {/* Mode toggle */}
-      <div className="grid grid-cols-2 gap-4">
-        <ModeCard
-          active={mode === "in-person"}
-          onClick={() => setMode("in-person")}
-          title="In Person"
-          blurb="Visit the atelier and try pieces in the light."
-        />
-        <ModeCard
-          active={mode === "virtual"}
-          onClick={() => setMode("virtual")}
-          title="Virtual"
-          blurb="A private video call by Zoom or FaceTime."
-        />
-      </div>
-
-      {/* Mode detail */}
-      <div className="mt-6">
-        {mode === "in-person" ? (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div className="rounded-card border border-[color:var(--border-soft)] bg-white/40 p-6">
-              <span className="overline text-gold">The Atelier</span>
-              <p className="mt-3 font-display text-body-lg text-obsidian">
-                {ATELIER_ADDRESS.line1}
-              </p>
-              <p className="font-sans text-body text-carbon">
-                {ATELIER_ADDRESS.line2}
-              </p>
-              <p className="mt-4 font-mono text-caption uppercase tracking-[0.16em] text-carbon/60">
-                Tue–Sat · 9am–5pm · By appointment
-              </p>
-            </div>
-            <div className="overflow-hidden rounded-card border border-[color:var(--border-soft)]">
-              <iframe
-                title="Atelier location"
-                src={MAP_SRC}
-                loading="lazy"
-                className="h-full min-h-[200px] w-full"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
-          </div>
-        ) : (
-          <div className="rounded-card border border-[color:var(--border-soft)] bg-white/40 p-6">
-            <span className="overline text-gold">Virtual Visit</span>
-            <p className="mt-3 font-sans text-body text-carbon">
-              We&rsquo;ll send a private video link (Zoom or FaceTime) ahead of
-              your slot. Have your inspiration and ring size to hand — our
-              gemologist will walk you through stones and settings live.
-            </p>
-          </div>
-        )}
+      {/* Virtual visit detail */}
+      <div className="rounded-card border border-[color:var(--border-soft)] bg-white/40 p-6">
+        <span className="overline text-gold">Virtual Visit</span>
+        <p className="mt-3 font-sans text-body text-carbon">
+          We&rsquo;ll send a private video link (Zoom or FaceTime) ahead of your
+          slot. Have your inspiration and ring size to hand — our gemologist will
+          walk you through stones and settings live.
+        </p>
       </div>
 
       {/* Form */}
@@ -300,39 +246,5 @@ function Field({
       <label className="overline mb-1.5 block text-obsidian">{label}</label>
       {children}
     </div>
-  );
-}
-
-function ModeCard({
-  active,
-  onClick,
-  title,
-  blurb,
-}: {
-  active: boolean;
-  onClick: () => void;
-  title: string;
-  blurb: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-pressed={active}
-      className={`rounded-card border p-5 text-left transition-colors ${
-        active
-          ? "border-gold bg-gold/5"
-          : "border-[color:var(--border-soft)] bg-white/30 hover:border-obsidian"
-      }`}
-    >
-      <span
-        className={`font-display text-h3 ${active ? "text-gold" : "text-obsidian"}`}
-      >
-        {title}
-      </span>
-      <span className="mt-1 block font-sans text-caption text-carbon">
-        {blurb}
-      </span>
-    </button>
   );
 }

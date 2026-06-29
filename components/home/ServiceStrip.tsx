@@ -76,9 +76,12 @@ export function ServiceStrip() {
         {SERVICES.map(({ icon: Icon, title, copy }) => (
           <div
             key={title}
-            className="flex flex-col items-center gap-3 px-4 py-8 text-center md:flex-row md:gap-5 md:text-left"
+            className="group flex flex-col items-center gap-3 px-4 py-8 text-center transition-transform duration-500 ease-luxe hover:-translate-y-0.5 md:flex-row md:gap-5 md:text-left"
           >
-            <span className="text-gold" aria-hidden="true">
+            <span
+              className="text-gold transition-transform duration-500 ease-luxe group-hover:scale-110 group-hover:rotate-3"
+              aria-hidden="true"
+            >
               <Icon />
             </span>
             <span className="flex flex-col gap-1">

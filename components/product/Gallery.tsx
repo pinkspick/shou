@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui";
 import type { Product } from "@/lib/products";
+import { GemArt } from "./GemArt";
 import { SpinningDiamond } from "./SpinningDiamond";
 
 const luxe = [0.25, 0.46, 0.45, 0.94] as const;
@@ -75,14 +77,31 @@ export function Gallery({ product }: { product: Product }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.35, ease: luxe }}
-              className={cn(
-                "absolute inset-0 flex items-center justify-center",
-                current.tone
-              )}
+              className="absolute inset-0"
             >
-              <span className="font-mono text-caption uppercase tracking-[0.2em] text-carbon/35">
-                {current.onModel ? "On Model" : "Lumière"}
-              </span>
+              {current.onModel ? (
+                <div
+                  className={cn(
+                    "flex h-full w-full items-center justify-center",
+                    current.tone
+                  )}
+                >
+                  <span className="font-mono text-caption uppercase tracking-[0.2em] text-carbon/45">
+                    On Model
+                  </span>
+                </div>
+              ) : product.image ? (
+                <Image
+                  src={product.image}
+                  alt={`${product.name} — ${current.label}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  priority
+                  className="object-cover"
+                />
+              ) : (
+                <GemArt product={product} className="relative h-full w-full" />
+              )}
               <span className="absolute bottom-4 left-4 font-mono text-[0.625rem] uppercase tracking-[0.18em] text-carbon/45">
                 {current.label}
               </span>
@@ -166,11 +185,23 @@ export function Gallery({ product }: { product: Product }) {
               !spin && active === i ? "border-gold" : "border-transparent hover:border-rose-gold"
             )}
           >
-            <span className={cn("absolute inset-0 flex items-center justify-center", f.tone)}>
-              <span className="font-mono text-[0.5rem] uppercase tracking-[0.14em] text-carbon/40">
-                {f.onModel ? "Model" : "View"}
+            {f.onModel ? (
+              <span className={cn("absolute inset-0 flex items-center justify-center", f.tone)}>
+                <span className="font-mono text-[0.5rem] uppercase tracking-[0.14em] text-carbon/40">
+                  Model
+                </span>
               </span>
-            </span>
+            ) : product.image ? (
+              <Image
+                src={product.image}
+                alt=""
+                fill
+                sizes="80px"
+                className="object-cover"
+              />
+            ) : (
+              <GemArt product={product} className="absolute inset-0" />
+            )}
           </button>
         ))}
       </div>

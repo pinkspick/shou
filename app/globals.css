@@ -8,11 +8,11 @@
    ===================================================================== */
 :root {
   /* ---- Colour palette ---- */
-  --ivory: #f9f6f0;        /* page background */
+  --ivory: #ffffff;        /* page background — clean, ethereal white */
   --obsidian: #1a1a18;     /* primary text, logo */
   --rose-gold: #c8aa96;    /* neutral accent, borders  (filled: was unspecified) */
-  --glacial: #d8e8e4;      /* cool accent — lab / eco sections */
-  --champagne: #efe6d6;    /* warm editorial surface — imagery placeholders */
+  --glacial: #eef5f3;      /* cool accent — lab / eco sections */
+  --champagne: #f4f1ec;    /* soft editorial surface — imagery placeholders */
   --carbon: #3a3a36;       /* secondary text */
   --gold: #b8962e;         /* pricing, CTAs, highlight */
   --white: #ffffff;
@@ -187,6 +187,54 @@
   }
   to {
     transform: rotateY(360deg);
+  }
+}
+
+/* ------------------------------------------------------------------
+   GemArt — Van Cleef crystal-figurine motion (see components/product/GemArt)
+   ------------------------------------------------------------------ */
+.gem-float {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gem-float 7s var(--ease-luxe) infinite;
+}
+@keyframes gem-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translateY(-4px) rotate(2.5deg) scale(1.02);
+  }
+}
+.gem-drift {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: gem-drift 11s ease-in-out infinite;
+}
+@keyframes gem-drift {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(1.04);
+  }
+}
+.gem-shimmer {
+  transform-box: fill-box;
+  animation: gem-shimmer 6s ease-in-out infinite;
+}
+@keyframes gem-shimmer {
+  0%,
+  18% {
+    transform: translateX(-100%);
+  }
+  55%,
+  100% {
+    transform: translateX(100%);
   }
 }
 

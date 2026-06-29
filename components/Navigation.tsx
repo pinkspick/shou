@@ -153,6 +153,7 @@ export function Navigation() {
   }, [open]);
 
   return (
+    <>
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-400 ease-luxe",
@@ -211,6 +212,7 @@ export function Navigation() {
           </button>
         </div>
       </div>
+    </header>
 
       {/* Left slide-out sidebar */}
       <AnimatePresence>
@@ -287,6 +289,6 @@ export function Navigation() {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

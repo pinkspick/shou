@@ -92,6 +92,9 @@ export type Product = {
   featured?: boolean;
   bestSeller?: boolean;
   labGrown: true;
+  /** Optional product photograph (served from /public). When absent, the
+   *  shop renders a Van Cleef-inspired crystal-figurine motif instead. */
+  image?: string;
 };
 
 export const CATEGORY_LABELS: Record<Category, string> = {
@@ -278,6 +281,7 @@ export const PRODUCTS: Product[] = [
     featured: true,
     bestSeller: true,
     labGrown: true,
+    image: "/products/necklace-constella-pearl.avif",
   },
   {
     id: "n2",
@@ -294,6 +298,7 @@ export const PRODUCTS: Product[] = [
     popularity: 85,
     added: 9,
     labGrown: true,
+    image: "/products/necklace-constella-cluster.avif",
   },
   {
     id: "n3",
@@ -310,6 +315,7 @@ export const PRODUCTS: Product[] = [
     popularity: 50,
     added: 7,
     labGrown: true,
+    image: "/products/necklace-constella-pearl.avif",
   },
   {
     id: "n4",
@@ -326,6 +332,7 @@ export const PRODUCTS: Product[] = [
     popularity: 65,
     added: 5,
     labGrown: true,
+    image: "/products/necklace-constella-cluster.avif",
   },
   {
     id: "n5",
@@ -342,6 +349,7 @@ export const PRODUCTS: Product[] = [
     popularity: 48,
     added: 13,
     labGrown: true,
+    image: "/products/necklace-constella-pearl.avif",
   },
 
   // ---- Bracelets ----

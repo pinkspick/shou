@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui";
+import { GemArt } from "@/components/product/GemArt";
 import { formatPrice, type Product } from "@/lib/products";
 
 /* Inline icons (stroke = currentColor) */
@@ -47,24 +49,35 @@ export function ProductCard({
       {/* Image area (the link target) */}
       <Link
         href={href}
-        className="relative block aspect-square overflow-hidden rounded-none bg-champagne"
+        className="relative block aspect-square overflow-hidden rounded-none bg-white"
         aria-label={product.name}
       >
-        {/* Product-only frame */}
+        {/* Product-only frame — real photograph or crystal-figurine art */}
         <span
           className={cn(
-            "absolute inset-0 flex items-center justify-center bg-champagne transition-opacity duration-300 ease-luxe",
+            "absolute inset-0 transition-opacity duration-300 ease-luxe",
             restLayer === "product"
               ? "opacity-100 group-hover:opacity-0"
               : "opacity-0 group-hover:opacity-100"
           )}
         >
-          <span className="font-mono text-caption uppercase tracking-[0.2em] text-carbon/35">
-            Lumière
-          </span>
+          {product.image ? (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="(max-width: 768px) 50vw, 25vw"
+              className="object-cover transition-transform duration-700 ease-luxe group-hover:scale-105"
+            />
+          ) : (
+            <GemArt
+              product={product}
+              className="relative h-full w-full transition-transform duration-700 ease-luxe group-hover:scale-105"
+            />
+          )}
         </span>
 
-        {/* On-model frame */}
+        {/* On-model frame — soft lifestyle stand-in */}
         <span
           className={cn(
             "absolute inset-0 flex items-center justify-center bg-glacial transition-opacity duration-300 ease-luxe",
